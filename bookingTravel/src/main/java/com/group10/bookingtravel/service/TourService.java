@@ -1,5 +1,6 @@
 package com.group10.bookingtravel.service;
 
+import com.group10.bookingtravel.dto.TourInfoDTO;
 import com.group10.bookingtravel.entity.Tour;
 import com.group10.bookingtravel.repository.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class TourService {
     @Autowired
     private TourRepository tourRepository;
 
-    public List<Tour> getDataFromTour(){
+    public List<TourInfoDTO> getDataFromTour(){
         return tourRepository.tourList();
     }
 }

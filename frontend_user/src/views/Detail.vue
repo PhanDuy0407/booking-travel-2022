@@ -1,6 +1,187 @@
 <template>
   <div>
+    <v-card color="#f9f9f9">
+      <v-card-title class="d-flex justify-space-between">
+        <h3>Hà Nội - Bái Đính - Khu du lịch Tràng An</h3>
+        <div>
+          <v-btn color="error">Đặt ngay</v-btn>
+          <v-btn>Liên hệ tư vấn</v-btn>
+        </div>
+      </v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col>
+            <v-img
+              src="https://cdn.pixabay.com/photo/2020/02/07/20/32/cyprus-4828328_1280.jpg"
+              :aspect-ratio="16 / 9"
+              gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
+              style="border-radius: 16px"
+              height="400px"
+            ></v-img>
+          </v-col>
+          <v-col>
+            <v-card height="400px" class="overflow-auto">
+              <v-card-text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                accumsan at urna ut fermentum. Pellentesque non diam nec sapien
+                laoreet tincidunt ac vitae leo. Nunc pellentesque, nisi
+                venenatis mollis tempor, mi risus blandit urna, vitae
+                sollicitudin justo tellus sit amet massa. In augue turpis,
+                suscipit mattis augue non, varius ullamcorper erat. Maecenas
+                ipsum sapien, dictum eleifend vehicula at, aliquet in nibh.
+                Donec laoreet ex eu nulla porta blandit. Pellentesque et urna
+                ex. In tincidunt suscipit libero, non pretium augue elementum
+                non. Vestibulum vel facilisis metus, ac dictum nisi.
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card height="300px">
+              <v-card-text>
+                <p>Khởi hành:</p>
+                <p>Thời gian:</p>
+                <p>Nơi khởi hành:</p>
+                <p>Số chỗ còn nhận:</p>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card height="300px">
+              <v-card-title>Địa điểm tham quan</v-card-title>
+              <v-card-text>
+                <li v-for="(item, index) in locations" :key="index">
+                  {{ item }}
+                </li>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+
+    <h2 class="mt-16 text-center">Lịch trình</h2>
+    <v-card>
+      <v-row>
+        <v-col lg="4" style="background-color: #f9f9f9">
+          <v-card-text class="mb-10">
+            <div class="d-flex justify-space-between">
+              <div>Ngày 1</div>
+              <div>03/06/2022</div>
+            </div>
+            <div>HÀ NỘI QUẢN BẠ YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)</div>
+          </v-card-text>
+          <v-card-text class="mb-10">
+            <div class="d-flex justify-space-between">
+              <div>Ngày 1</div>
+              <div>03/06/2022</div>
+            </div>
+            <div>HÀ NỘI QUẢN BẠ YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)</div>
+          </v-card-text>
+        </v-col>
+        <v-col>
+          <v-card-text>
+            <h4>
+              Ngày 1 - HÀ NỘI QUẢN BẠ - YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)
+            </h4>
+            <li>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elitm Nullam
+              accumsan at urna ut |ermentumm Pellentesque non diam nec sapien
+              laoreet tincidunt ac vitae leom Nunc pellentesque, nisi venenatis
+              mollis tempor, mi risus blandit urna, vitae sollicitudin justo
+              tellus sit amet massam In augue turpis, suscipit mattis augue non,
+              varius ullamcorper eratl
+            </li>
+          </v-card-text>
+          <v-card-text>
+            <h4>
+              Ngày 1 - HÀ NỘI QUẢN BẠ - YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)
+            </h4>
+            <li>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elitm Nullam
+              accumsan at urna ut |ermentumm Pellentesque non diam nec sapien
+              laoreet tincidunt ac vitae leom Nunc pellentesque, nisi venenatis
+              mollis tempor, mi risus blandit urna, vitae sollicitudin justo
+              tellus sit amet massam In augue turpis, suscipit mattis augue non,
+              varius ullamcorper eratl
+            </li>
+          </v-card-text>
+        </v-col>
+      </v-row>
+    </v-card>
+
+    <h2 class="mt-16 text-center">Thông tin tour</h2>
+
     <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title class="justify-center"
+            >Thông tin tập trung</v-card-title
+          >
+          <v-card-text>
+            <div>Ngày giờ tập trung:</div>
+            <div>Nơi tập trung:</div>
+          </v-card-text>
+        </v-card>
+        <v-card class="mt-4">
+          <v-card-title class="justify-center"
+            >Thông tin hướng dẫn viên</v-card-title
+          >
+          <v-card-text>
+            <div>Ngày giờ tập trung:</div>
+            <div>Nơi tập trung:</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-title class="justify-center"
+            >Giá tour và Phụ thu</v-card-title
+          >
+          <v-card-text>
+            <v-simple-table>
+              <thead>
+                <tr class="font-weight-bold">
+                  <th class="text-left">Loại khách</th>
+                  <th class="text-left">Giá tour</th>
+                  <th class="text-left">Land tour</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
+                  <td class="red--text">2.500.000 đ</td>
+                  <td>0 đ</td>
+                </tr>
+                <tr>
+                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
+                  <td class="red--text">2.500.000 đ</td>
+                  <td>0 đ</td>
+                </tr>
+                <tr>
+                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
+                  <td class="red--text">2.500.000 đ</td>
+                  <td>0 đ</td>
+                </tr>
+                <tr>
+                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
+                  <td class="red--text">2.500.000 đ</td>
+                  <td>0 đ</td>
+                </tr>
+                <tr class="font-weight-bold">
+                  <td class="font-weight-bold">Phụ thu phòng đơn	</td>
+                  <td class="red--text">2.500.000 đ</td>
+                  <td>0 đ</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- <v-row>
       <v-col cols="12" lg="12" xl="8">
         <div>
           <div>
@@ -252,7 +433,7 @@
           <siderbar />
         </div>
       </v-col>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 
@@ -260,7 +441,12 @@
 export default {
   name: "Category",
   components: {
-    siderbar: () => import("@/components/details/sidebar")
-  }
+    siderbar: () => import("@/components/details/sidebar"),
+  },
+  data() {
+    return {
+      locations: ["HN", "TPHCM"],
+    };
+  },
 };
 </script>

@@ -17,9 +17,6 @@
             :to="item.to"
             link
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item-content>
         </v-list-item>
         <v-list-item
             v-for="(item, i) in barItems"
@@ -60,8 +57,8 @@
                 @click="$router.push('/')"
             >
               <v-icon color="primary" large>mdi-feather</v-icon>
-              Hero
-              <span class="accent--text">UI</span>
+              
+              <span class="accent--text">DP Travel</span>
             </v-toolbar-title>
           </v-col>
 
@@ -85,12 +82,14 @@
                 :key="i"
                 :color="item.color"
                 :href="item.href"
-                :outlined="item.outlined"
                 :target="item.target"
                 :to="item.to"
                 class="ml-3 text-capitalize"
+                fab
+                outlined
+                small
             >
-              <v-icon left>{{ item.icon }}</v-icon>
+              <v-icon large>{{ item.icon }}</v-icon>
               {{ item.text }}
             </v-btn>
           </v-col>
@@ -106,28 +105,26 @@ export default {
     drawer: null,
     btnItems: [
       {
-        text: "Free Download",
-        href: "https://github.com/AGDholo/giraffe",
-        target: "_black",
-        color: "primary",
-        icon: "mdi-download",
+        color: "",
+        icon: "mdi-account",
+        to: "/login"
       },
     ],
     barItems: [
       {
-        title: "Home",
+        title: "Du lịch",
         to: "/",
       },
       {
-        title: "Category",
+        title: "Tin tức",
         to: "/category",
       },
       {
-        title: "Detail",
+        title: "Khuyến mãi",
         to: "/detail",
       },
       {
-        title: "Authors",
+        title: "Liên hệ",
         to: "/authors",
       },
       {

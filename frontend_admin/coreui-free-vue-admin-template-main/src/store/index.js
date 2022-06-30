@@ -1,5 +1,8 @@
 import { createStore } from 'vuex'
 import tour from './tour.js'
+import guide from './guide.js'
+import user from './user.js'
+import order from './order.js'
 
 export default createStore({
   state: {
@@ -20,5 +23,8 @@ export default createStore({
   actions: {},
   modules: {
     tour,
+    guide,
+    user,
+    order,
   },
 })

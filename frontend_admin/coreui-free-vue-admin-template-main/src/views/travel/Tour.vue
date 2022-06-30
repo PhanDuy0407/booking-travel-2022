@@ -142,9 +142,6 @@ export default {
     handleSizeChange(val) {
       this.pageSize2 = val
     },
-    add() {
-      this.index++
-    },
     getFormattedDate(date) {
       let year = date.getFullYear()
       let month = (1 + date.getMonth()).toString().padStart(2, '0')

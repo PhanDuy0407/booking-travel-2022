@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "discount")
+@Table(name = "price")
 @Entity
 public class Price {
     @Id
@@ -17,5 +17,12 @@ public class Price {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "tour_id")
+    private Long tourId;
 
+    @Column(name = "tour_price_id")
+    private Long tourPriceId;
+
+    @Column(name = "land_tour_price_id")
+    private Long landTourPriceId;
 }

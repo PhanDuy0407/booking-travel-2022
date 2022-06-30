@@ -18,6 +18,9 @@ public class Discount {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "price_id")
+    private Long tourid;
+
     @Column(name = "start_date")
     private Date startDate;
 

@@ -19,17 +19,17 @@ public class TourPrice {
     private Long id;
 
     @Column(name = "adult")
-    private int adult;
+    private Integer adult;
 
     @Column(name = "children")
-    private int children;
+    private Integer children;
 
     @Column(name = "kid")
-    private int kid;
+    private Integer kid;
 
     @Column(name = "baby")
-    private int baby;
+    private Integer baby;
 
     @Column(name = "surcharge")
-    private int surcharge;
+    private Integer surcharge;
 }

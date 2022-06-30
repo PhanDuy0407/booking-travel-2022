@@ -6,8 +6,16 @@
       style="margin-bottom: 20px"
       >Thêm mới</el-button
     >
-    <el-table :data="list" stripe border style="width: 100%">
-      <el-table-column fixed prop="name" label="Tên Tour" />
+    <el-table
+      :data="displayData"
+      stripe
+      border
+      style="width: 100%"
+      v-loading="loading"
+    >
+      <el-table-column type="index" fixed />
+      <el-table-column prop="code" label="Mã Tour" />
+      <el-table-column prop="name" label="Tên Tour" />
       <el-table-column prop="startTime" label="Thời gian bắt đầu">
         <template #default="scope">
           {{ getFormattedDate(new Date(scope.row.startTime)) }}
@@ -32,12 +40,29 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      v-model:currentPage="currentPage2"
+      v-model:page-size="pageSize2"
+      :page-sizes="[10, 20, 50, 100]"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
+      layout="sizes, prev, pager, next"
+      :total="list.length"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      style="float: right"
+    />
     <el-dialog
       v-model="dialogDetailVisible"
       title="Thông tin chi tiết Tour"
       width="80%"
     >
-      <detail-tour :tourData="dataTour"></detail-tour>
+      <detail-tour
+        :tourData="dataTour"
+        :dataSchedule="dataSchedule"
+        :disCountTourGet="discountTour"
+      ></detail-tour>
     </el-dialog>
     <el-dialog v-model="dialogUpdateVisible" title="Cập nhật thông tin Tour">
       <UpdateTour></UpdateTour>
@@ -52,11 +77,16 @@ import { mapGetters, mapActions } from 'vuex'
 import DetailTour from './DetailTour.vue'
 import AddTour from './AddTour.vue'
 import UpdateTour from './UpdateTour.vue'
+import { ref } from 'vue'
+
 export default {
   components: { DetailTour, AddTour, UpdateTour },
   name: 'Quản lý Tour',
   data() {
     return {
+      currentPage2: 1,
+      pageSize2: 10,
+      loading: ref(false),
       list: [],
       index: 0,
       dialogDetailVisible: false,
@@ -76,18 +106,42 @@ export default {
         code: '',
         status: null,
       },
+      dataSchedule: [],
+      discountTour: {},
     }
   },
   created() {
     this.getData()
   },
   computed: {
-    ...mapGetters({ tourListGet: 'tour/getTourList' }),
+    ...mapGetters({
+      tourListGet: 'tour/getTourList',
+      getTourScheduleByTourId: 'tour/getTourScheduleList',
+      getDiscountTour: 'tour/getDiscountTour',
+    }),
+    displayData() {
+      if (!this.list || this.list.length === 0) return []
+      return this.list.slice(
+        this.pageSize2 * this.currentPage2 - this.pageSize2,
+        this.pageSize2 * this.currentPage2,
+      )
+    },
   },
   methods: {
     ...mapActions({
       actionTourList: 'tour/actionTourList',
+      actionTourPriceById: 'tour/actionGetTourPrice1TourList',
+      actionLandTourPriceById: 'tour/actionGetLandPrice1TourList',
+      actionGetTourScheduleById: 'tour/actionGetTourScheduleList',
+      actionGetDiscountTour: 'tour/actionGetDiscountTour',
+      actionGetOrdersByTourId: 'tour/actionGetOrdersByTourId',
     }),
+    handleCurrentChange(val) {
+      this.currentPage2 = val
+    },
+    handleSizeChange(val) {
+      this.pageSize2 = val
+    },
     add() {
       this.index++
     },
@@ -103,10 +157,52 @@ export default {
       this.list = this.tourListGet
       console.log(this.list[0].name)
     },
+    getFormattedDateForSchedule(date) {
+      let year = date.getFullYear()
+      let month = (1 + date.getMonth()).toString().padStart(2, '0')
+      let day = date.getDate().toString().padStart(2, '0')
+
+      return year + '-' + month + '-' + day
+    },
+    async getTourScheduleById(id) {
+      await this.actionGetTourScheduleById(id)
+      this.dataSchedule = this.getTourScheduleByTourId
+      for (let i = 0; i < this.dataSchedule.length; i++) {
+        this.dataSchedule[i].time = this.getFormattedDateForSchedule(
+          new Date(this.dataSchedule[i].time),
+        )
+      }
+      console.log(this.dataSchedule)
+    },
     handleDetailClick(data) {
+      // this.loading = ref(true)
       this.dialogDetailVisible = true
       this.dataTour = Object.assign({}, data)
-      console.log(this.dataTour)
+      this.dataTour.startTime = this.getFormattedDateForSchedule(
+        new Date(this.dataTour.startTime),
+      )
+      this.actionTourPriceById(data.id)
+      this.actionLandTourPriceById(data.id)
+      this.actionGetOrdersByTourId(data.id)
+      this.getTourScheduleById(data.id)
+      this.getDiscountTourRit(data.id)
+    },
+    async getDiscountTourRit(id) {
+      await this.actionGetDiscountTour(id)
+      this.discountTour = this.getDiscountTour
+
+      if (this.discountTour.startDate != null) {
+        this.discountTour.startDate = this.getFormattedDateForSchedule(
+          new Date(this.discountTour.startDate),
+        )
+        console.log('abccc' + this.discountTour.startDate + '--1')
+      }
+      if (this.discountTour.endDate != null) {
+        this.discountTour.endDate = this.getFormattedDateForSchedule(
+          new Date(this.discountTour.endDate),
+        )
+        console.log('abccc' + this.discountTour.endDate + '--2')
+      }
     },
     handleUpdateClick() {
       this.dialogUpdateVisible = true

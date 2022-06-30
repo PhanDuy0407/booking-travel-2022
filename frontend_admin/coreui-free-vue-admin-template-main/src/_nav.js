@@ -14,7 +14,24 @@ export default [
     to: '/tour',
     icon: 'cil-speedometer',
   },
-  // {
+  {
+    component: 'CNavItem',
+    name: 'Quản lý Guide',
+    to: '/guide',
+    icon: 'cil-puzzle',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Quản lý User',
+    to: '/user',
+    icon: 'cil-drop',
+  },
+  {
+    component: 'CNavItem',
+    name: 'Quản lý Order',
+    to: '/order',
+    icon: 'cil-pencil',
+  },
   //   component: 'CNavTitle',
   //   name: 'Theme',
   // },

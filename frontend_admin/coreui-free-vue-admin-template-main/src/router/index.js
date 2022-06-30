@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: DefaultLayout,
-    redirect: '/dashboard',
+    redirect: '/tour',
     children: [
       {
         path: '/dashboard',
@@ -22,7 +22,34 @@ const routes = [
       {
         path: '/tour',
         name: 'Tour',
-        redirect: '/travel/tour',
+        redirect: '/tour',
+      },
+      {
+        path: '/guide',
+        name: 'Guide',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/guide/Guide.vue'),
+      },
+      {
+        path: '/user',
+        name: 'User',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/user/User.vue'),
+      },
+      {
+        path: '/order',
+        name: 'Order',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/order/Order.vue'),
       },
       {
         path: '/tour',

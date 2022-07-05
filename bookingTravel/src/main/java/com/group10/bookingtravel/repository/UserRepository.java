@@ -4,8 +4,10 @@ import com.group10.bookingtravel.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +24,11 @@ public interface UserRepository extends JpaRepository<User,Long> {
     public void updateStatus(Long id, Integer status);
 
     public Optional<User> getUserByUsername(String username);
+
+    User findByUsername(String username);
+
+    @Modifying
+    @Query(value = "insert into user (address, created_date, dob, email, fullname, gender, password, username) VALUES (:address, :created_date, :dob, :email, :fullname, :gender, :password, :username)", nativeQuery = true)
+    @Transactional
+    void save(@Param("address") String address, @Param("created_date") String created_date, @Param("dob") String dob, @Param("email") String email, @Param("fullname") String fullname, @Param("gender") String gender, @Param("password") String password, @Param("username") String username);
 }

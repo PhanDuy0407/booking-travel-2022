@@ -1,18 +1,23 @@
 package com.group10.bookingtravel.service;
 
+import com.group10.bookingtravel.dto.UserJwtDTO;
 import com.group10.bookingtravel.dto.UserSearchDTO;
 import com.group10.bookingtravel.dto.UserStatusDTO;
 import com.group10.bookingtravel.entity.User;
 import com.group10.bookingtravel.repository.UserRepository;
+import com.group10.bookingtravel.utils.jwt.DateFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Access;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -46,5 +51,19 @@ public class UserService {
             return userRepository.getUserByUsername(userName).get();
         }
         return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new UserJwtDTO(user);
+    }
+
+    @Transactional
+    public void saveUser(User user) {
+        userRepository.save(user.getAddress(), DateFormatter.format(user.getCreatedDate()), user.getDob(), user.getEmail(), user.getFullname(), user.getGender(), user.getPassword(), user.getUsername());
     }
 }

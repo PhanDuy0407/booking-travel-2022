@@ -15,7 +15,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "username")
@@ -50,5 +50,8 @@ public class User {
 
     @Column(name = "total_order")
     private Integer totalOrder;
+
+    @Column(name = "isAdmin")
+    private Boolean isAdmin;
 
 }

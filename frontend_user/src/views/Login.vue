@@ -9,15 +9,17 @@
         </v-card-title>
         <v-card-text>
           <v-text-field
-              label="Email"
+              label="Username"
               outlined
+              v-model="username"
           ></v-text-field>
           <v-text-field
               label="Password"
               outlined
+              v-model="password"
           ></v-text-field>
           <div class="text-right">
-            <v-btn color="primary">
+            <v-btn color="primary" @click="submit">
               Login
             </v-btn>
           </div>
@@ -26,3 +28,31 @@
     </v-col>
   </v-row>
 </template>
+
+<script>
+import axiosIns from 'axios'
+
+export default {
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    async submit() {
+      const data = await axiosIns.post(
+        'http://localhost:8089/api/v1/login',
+        {
+          "username": this.username,
+          "password": this.password
+        }
+      )
+      if (data.status === 200) {
+        localStorage.username = this.username
+        localStorage.jwt = data.data.data
+      }
+    }
+  }
+}
+</script>

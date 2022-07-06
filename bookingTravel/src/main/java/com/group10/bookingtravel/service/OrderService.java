@@ -32,4 +32,10 @@ public class OrderService {
         }
         return ordersList;
     }
+
+    public Orders bookTour (Orders order){
+        order.setCreatedDate(new Date());
+        order.setStatus("1");
+        return ordersRepository.save(order);
+    }
 }

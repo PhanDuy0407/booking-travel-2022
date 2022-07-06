@@ -14,8 +14,8 @@ public class DataAddTourDTO {
     private String name;
     private String startTime;
     private String period;
-    private Integer startPlaceId;
-    private Integer endPlaceId;
+    private Long startPlaceId;
+    private Long endPlaceId;
     private String mainImageUrl;
     private String shortDesc;
 
@@ -37,5 +37,5 @@ public class DataAddTourDTO {
     private String discountEndDate;
     private String discount;
 
-    private Integer guideId;
+    private Long guideId;
 }

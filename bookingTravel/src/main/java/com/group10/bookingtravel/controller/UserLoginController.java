@@ -1,9 +1,6 @@
 package com.group10.bookingtravel.controller;
 
-import com.group10.bookingtravel.dto.BaseResponse;
-import com.group10.bookingtravel.dto.UserJwtDTO;
-import com.group10.bookingtravel.dto.UserLoginRequestDTO;
-import com.group10.bookingtravel.dto.UserRegisterRequestDTO;
+import com.group10.bookingtravel.dto.*;
 import com.group10.bookingtravel.entity.User;
 import com.group10.bookingtravel.service.UserService;
 import com.group10.bookingtravel.utils.jwt.JWTHandler;
@@ -51,11 +48,12 @@ public class UserLoginController {
             );
             // Nếu không xảy ra exception tức là thông tin hợp lệ
             // Set thông tin authentication vào Security Context
+            UserJwtDTO userData = (UserJwtDTO) authentication.getPrincipal();
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Trả về jwt cho người dùng.
             String jwt = jwtHandler.generateToken((UserJwtDTO) authentication.getPrincipal());
-            return ResponseEntity.ok(new BaseResponse(true, "Login success", jwt));
+            return ResponseEntity.ok(new BaseResponse(true, "Login success", new UserJwtResDTO(userData.getId(), jwt)));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(403).body(new BaseResponse(false, "Invalid Credential"));
         }
@@ -81,7 +79,7 @@ public class UserLoginController {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // Trả về jwt cho người dùng.
                 String jwt = jwtHandler.generateToken(userData);
-                return ResponseEntity.ok(new BaseResponse(true, "Login success", jwt));
+                return ResponseEntity.ok(new BaseResponse(true, "Login success", new UserJwtResDTO(userData.getId(), jwt)));
             }
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(403).body(new BaseResponse(false, "Invalid Credential"));

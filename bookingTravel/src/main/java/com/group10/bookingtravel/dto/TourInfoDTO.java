@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TourInfoDTO {
     private Long id;
     private String code;
@@ -17,16 +18,17 @@ public class TourInfoDTO {
     private String shortDesc;
     private Date startTime;
     private Integer period;
-    private Integer startPlaceId;
+    private Long startPlaceId;
     private String startPlaceName;
-    private Integer endPlaceId;
+    private Long endPlaceId;
     private String endPlaceName;
     private String mainImageUrl;
-    private Integer guideId;
+    private Long guideId;
     private Integer placeOrderMax;
     private Integer status;
+    private Integer price;
 
-    public TourInfoDTO(Long id, String code, String name, String shortDesc, Date startTime, Integer period, Integer startPlaceId, String startPlaceName, Integer endPlaceId, String endPlaceName, String mainImageUrl, Integer guideId, Integer placeOrderMax, Integer status) throws ParseException {
+    public TourInfoDTO(Long id, String code, String name, String shortDesc, Date startTime, Integer period, Long startPlaceId, String startPlaceName, Long endPlaceId, String endPlaceName, String mainImageUrl, Long guideId, Integer placeOrderMax, Integer status) throws ParseException {
         this.id = id;
         this.code = code;
         this.name = name;

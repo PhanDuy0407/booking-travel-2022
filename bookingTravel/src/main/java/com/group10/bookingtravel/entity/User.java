@@ -51,7 +51,7 @@ public class User {
     @Column(name = "total_order")
     private Integer totalOrder;
 
-    @Column(name = "isAdmin")
+    @Column(name = "is_admin")
     private Boolean isAdmin;
 
 }

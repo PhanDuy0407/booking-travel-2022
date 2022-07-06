@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    @Query("select distinct new com.group10.bookingtravel.entity.User(u.id,u.username,u.fullname,u.email,u.address,u.dob,u.gender,u.password,u.createdDate,u.status,u.rank,u.totalOrder) from User u where ((lower(u.username) like lower(concat('%',?2,'%')))or(?2 = '' )) and ((lower(u.rank) like lower(concat('%',?3,'%')))or(?3 = '' )) and ((u.status = ?4 )or(?4 = 2)) and ((u.id = ?1 )or(?1 = 0))")
+    @Query("select distinct new com.group10.bookingtravel.entity.User(u.id,u.username,u.fullname,u.email,u.address,u.dob,u.gender,u.password,u.createdDate,u.status,u.rank,u.totalOrder,u.isAdmin) from User u where ((lower(u.username) like lower(concat('%',?2,'%')))or(?2 = '' )) and ((lower(u.rank) like lower(concat('%',?3,'%')))or(?3 = '' )) and ((u.status = ?4 )or(?4 = 2)) and ((u.id = ?1 )or(?1 = 0))")
     public Optional<List<User>> userList(Long id, String username, String rank, Integer status);
 
     @Modifying

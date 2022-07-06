@@ -37,6 +37,9 @@ public class TourService {
     @Autowired
     private OrdersRepository ordersRepository;
 
+    @Autowired
+    private GuideRepository guideRepository;
+
     public List<TourInfoDTO> getDataFromTour(String codeTour,String nameTour){
         if(codeTour == null || codeTour.equals("null")){
             codeTour = "";
@@ -328,5 +331,26 @@ public class TourService {
             tourSchedule.setDetail(tourScheduleDTO.getDetail());
             tourScheduleRepository.saveAndFlush(tourSchedule);
         }
+    }
+
+    // get tour list for frontend user
+    public List<TourInfoDTO> getTourList(){
+        return tourRepository.getTourList();
+    }
+    public List<TourInfoDTO> getTourListFilter(Long startPLaceId, Long endPlaceId, Date startTime, Integer fromPeriod, Integer toPeriod, Integer fromPrice, Integer toPrice){
+        return tourRepository.getTourListFilter(startPLaceId, endPlaceId, startTime, fromPeriod, toPeriod, fromPrice, toPrice);
+    }
+    public TourDTO_User getTourDetail(Long id){
+        TourDTO_User tour = tourRepository.getTourById(id);
+        Optional<TourPrice> tourPriceOptional = tourPriceRepository.getTourPriceByTourId(id);
+        tourPriceOptional.ifPresent(tour::setTourPrice);
+        Optional<LandTourPrice> landTourPriceOptional = landTourPriceRepository.getLandTourPriceByTourId(id);
+        landTourPriceOptional.ifPresent(tour::setLandTourPrice);
+        Optional<List<TourSchedule>> tourScheduleListOpt = tourScheduleRepository.getTourScheduleByTourId(id);
+        tourScheduleListOpt.ifPresent(tour::setTourScheduleList);
+        return tour;
+    }
+    public List<TourDTO_User> getToursDiscount(){
+        return tourRepository.getToursDiscount();
     }
 }

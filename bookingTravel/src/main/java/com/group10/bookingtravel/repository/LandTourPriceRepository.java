@@ -15,4 +15,11 @@ public interface LandTourPriceRepository extends JpaRepository<LandTourPrice,Lon
 
     @Query(value = "SELECT MAX(ID) FROM land_tour_price",nativeQuery = true)
     public Integer getMaxId();
+
+    // for frontend user
+    @Query("select distinct new com.group10.bookingtravel.entity.LandTourPrice" +
+            "(l.id,l.adult,l.children,l.kid,l.baby,l.surcharge) " +
+            "from LandTourPrice l, Price p " +
+            "where l.id = p.landTourPriceId and p.tourId = ?1")
+    public Optional<LandTourPrice> getLandTourPriceByTourId(Long tourId);
 }

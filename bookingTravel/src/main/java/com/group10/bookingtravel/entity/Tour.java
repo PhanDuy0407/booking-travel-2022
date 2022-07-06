@@ -31,16 +31,16 @@ public class Tour {
     private Integer period;
 
     @Column(name = "start_place_id")
-    private Integer startPlaceId;
+    private Long startPlaceId;
 
     @Column(name = "end_place_id")
-    private Integer endPlaceId;
+    private Long endPlaceId;
 
     @Column(name = "main_image_url")
     private String mainImageUrl;
 
     @Column(name = "guide_id")
-    private Integer guideId;
+    private Long guideId;
 
     @Column(name = "place_order_max")
     private Integer placeOrderMax;

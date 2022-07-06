@@ -15,8 +15,8 @@ public class DataUpdateTourDTO {
     private String name;
     private String startTime;
     private String period;
-    private Integer startPlaceId;
-    private Integer endPlaceId;
+    private Long startPlaceId;
+    private Long endPlaceId;
     private String mainImageUrl;
     private String shortDesc;
     private String placeOrderMax;
@@ -39,10 +39,10 @@ public class DataUpdateTourDTO {
     private List<TourScheduleUpdateDTO> tourScheduleDTOList;
 
     private Integer idDiscount;
-    private Integer priceId;
+    private Long priceId;
     private String discountStartDate;
     private String discountEndDate;
     private String discount;
 
-    private Integer guideId;
+    private Long guideId;
 }

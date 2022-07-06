@@ -37,7 +37,7 @@ public class UserController {
       userService.updateStatusUser(userStatusDTO);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/{userName}")
     public User getUserByUserName(@PathVariable String userName){
         return userService.getUserByUserName(userName);
     }

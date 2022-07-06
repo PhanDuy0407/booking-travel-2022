@@ -10,16 +10,19 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tour")
+@Table(name = "user")
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "fullname")
+    private String fullname;
 
     @Column(name = "email")
     private String email;
@@ -35,5 +38,20 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "status")
+    private Integer status;
+
+    @Column(name = "rank")
+    private String rank;
+
+    @Column(name = "total_order")
+    private Integer totalOrder;
+
+    @Column(name = "isAdmin")
+    private Boolean isAdmin;
 
 }

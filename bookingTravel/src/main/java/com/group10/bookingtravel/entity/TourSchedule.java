@@ -10,13 +10,16 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tour")
+@Table(name = "tour_schedule")
 @Entity
 public class TourSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "tour_id")
+    private Long tourId;
 
     @Column(name = "alias")
     private String alias;

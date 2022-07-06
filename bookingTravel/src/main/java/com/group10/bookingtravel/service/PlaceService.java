@@ -5,6 +5,7 @@ import com.group10.bookingtravel.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +15,10 @@ public class PlaceService {
     private PlaceRepository placeRepository;
 
     public List<Place> getListPlace(){
-        return placeRepository.placeList();
+        List<Place> placeList = new ArrayList<>();
+        if(placeRepository.placeList().isPresent()){
+            return placeRepository.placeList().get();
+        }
+        return placeList;
     }
 }

@@ -20,7 +20,7 @@ public class Place {
     private Long id;
 
     @Column(name = "region_id")
-    private int regionId;
+    private Long regionId;
 
     @Column(name = "name")
     private String name;

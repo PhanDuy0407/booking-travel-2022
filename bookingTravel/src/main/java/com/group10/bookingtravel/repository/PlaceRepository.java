@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
     @Query("select distinct new com.group10.bookingtravel.entity.Place(p.id,p.regionId,p.name) from Place p")
-    List<Place> placeList();
+    Optional<List<Place>> placeList();
 }

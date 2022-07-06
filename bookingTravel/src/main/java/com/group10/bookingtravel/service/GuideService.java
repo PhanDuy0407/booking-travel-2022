@@ -1,5 +1,6 @@
 package com.group10.bookingtravel.service;
 
+import com.group10.bookingtravel.dto.GuideSelectBoxDTO;
 import com.group10.bookingtravel.entity.Guide;
 import com.group10.bookingtravel.repository.GuideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,24 @@ public class GuideService {
             return guideRepository.listGuide(name,phone).get();
         }
         return guideList;
+    }
+
+    public Integer getMaxId(){
+        return guideRepository.getMaxId();
+    }
+
+    public void addNewGuide(Guide g){
+        guideRepository.save(g);
+    }
+    public void updateNewGuide(Guide g){
+        guideRepository.save(g);
+    }
+
+    public List<GuideSelectBoxDTO> getGuideSelectBox(){
+        List<GuideSelectBoxDTO> guideSelectBoxDTOList = new ArrayList<>();
+        if(guideRepository.getListGuideSelectbox().isPresent()){
+            return guideRepository.getListGuideSelectbox().get();
+        }
+        return guideSelectBoxDTOList;
     }
 }

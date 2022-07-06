@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -18,7 +21,8 @@ public class OrdersController {
     private OrderService orderService;
 
     @GetMapping("/orders-all")
-    public List<Orders> getAllOrders(){
-        return orderService.getAllOrders();
+    public List<Orders> getAllOrders(@RequestParam(name = "fromDate" , required = false) String fromDate,
+                                     @RequestParam(name = "toDate", required = false) String toDate) throws ParseException {
+        return orderService.getAllOrders(fromDate,toDate);
     }
 }

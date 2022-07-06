@@ -28,28 +28,28 @@ public class Tour {
     private Date startTime;
 
     @Column(name = "period")
-    private int period;
+    private Integer period;
 
     @Column(name = "start_place_id")
-    private int startPlaceId;
+    private Integer startPlaceId;
 
     @Column(name = "end_place_id")
-    private int endPlaceId;
+    private Integer endPlaceId;
 
     @Column(name = "main_image_url")
     private String mainImageUrl;
 
     @Column(name = "guide_id")
-    private int guideId;
+    private Integer guideId;
 
     @Column(name = "place_order_max")
-    private int placeOrderMax;
+    private Integer placeOrderMax;
 
     @Column(name = "code")
     private String code;
 
     @Column(name = "status")
-    private int status;
+    private Integer status;
 
 
 

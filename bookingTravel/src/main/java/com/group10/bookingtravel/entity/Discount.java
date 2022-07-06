@@ -19,7 +19,7 @@ public class Discount {
     private Long id;
 
     @Column(name = "price_id")
-    private Long tourid;
+    private Long priceId;
 
     @Column(name = "start_date")
     private Date startDate;
@@ -28,5 +28,5 @@ public class Discount {
     private Date endDate;
 
     @Column(name = "discount")
-    private float discount;
+    private Float discount;
 }

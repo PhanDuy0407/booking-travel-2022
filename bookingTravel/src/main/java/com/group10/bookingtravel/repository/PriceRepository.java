@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface PriceRepository extends JpaRepository<Price,Long> {
    @Query("select distinct new com.group10.bookingtravel.entity.Price(p.id,p.tourId,p.tourPriceId,p.landTourPriceId) from Price p, Tour t where t.id = p.tourId and t.id = ?1")
     public Optional<Price> getPriceById(Long id);
+
+    @Query(value = "SELECT MAX(ID) FROM price",nativeQuery = true)
+    public Long getMaxId();
 }

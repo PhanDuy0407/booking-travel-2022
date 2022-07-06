@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface DiscountRepository extends JpaRepository<Discount,Long>{
 
-    public Optional<Discount> findByTourid(Long id);
+    public Optional<Discount> findByPriceId(Long id);
 }

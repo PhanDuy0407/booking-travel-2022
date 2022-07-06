@@ -31,7 +31,7 @@
 
 <script>
 import axiosIns from 'axios'
-
+import {mapActions, mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -40,6 +40,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setAuthentication: "user/setAuthentication"
+    }),
     async submit() {
       const data = await axiosIns.post(
         'http://localhost:8089/api/v1/login',
@@ -50,7 +53,11 @@ export default {
       )
       if (data.status === 200) {
         localStorage.username = this.username
-        localStorage.jwt = data.data.data
+        localStorage.userId = data.data.data.id
+        localStorage.jwt = data.data.data.jwt
+        this.setAuthentication(true)
+        // this.$router.push({ path: '/' })
+        this.$router.push({ name: 'Home' })
       }
     }
   }

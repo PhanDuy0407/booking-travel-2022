@@ -116,7 +116,7 @@ export default {
         to: "/",
       },
       {
-        title: "Tin tức",
+        title: "Danh sách tour",
         to: "/category",
       },
       {
@@ -124,8 +124,8 @@ export default {
         to: "/detail",
       },
       {
-        title: "Liên hệ",
-        to: "/authors",
+        title: "Hồ sơ",
+        to: "/profile",
       },
       {
         title: "Login",

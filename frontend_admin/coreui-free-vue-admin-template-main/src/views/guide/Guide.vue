@@ -48,7 +48,7 @@
             type="primary"
             size="small"
             @click="handleUpdateClick(scope.row)"
-            >Edit</el-button
+            >Chỉnh sửa</el-button
           >
         </template>
       </el-table-column>
@@ -76,7 +76,7 @@
       ></UpdateGuide>
     </el-dialog>
     <el-dialog v-model="dialogAddVisible" title="Thêm mới hướng dẫn viên">
-      <AddGuide></AddGuide>
+      <AddGuide :dataGuide="guideAdd" @close-dialog="closeDialogAdd"></AddGuide>
     </el-dialog>
   </div>
 </template>
@@ -98,11 +98,15 @@ export default {
         phoneGuide: null,
       },
       guideUpdate: {},
+      guideAdd: {
+        id: null,
+      },
     }
   },
   computed: {
     ...mapGetters({
       getGuideList: 'guide/getGuideList',
+      getMaxId: 'guide/getMaxId',
     }),
     displayGuideData() {
       if (!this.getGuideList || this.getGuideList.length === 0) return []
@@ -118,14 +122,20 @@ export default {
   methods: {
     ...mapActions({
       actionGuideList: 'guide/actionGuideList',
+      actionGetMaxId: 'guide/actionGetMaxId',
     }),
-    handleAddClick() {},
+    async handleAddClick() {
+      this.dialogAddVisible = true
+      await this.actionGetMaxId()
+      this.guideAdd.id = this.getMaxId + 1
+    },
     handleSearchClick() {
       this.actionGuideList(this.objectSearch)
     },
     handleUpdateClick(data) {
       this.dialogUpdateVisible = true
       this.guideUpdate = data
+      console.log(data)
     },
     handleCurrentChange(val) {
       this.currentPage2 = val
@@ -135,6 +145,10 @@ export default {
     },
     closeDialog(e) {
       this.dialogUpdateVisible = false
+      console.log(e)
+    },
+    closeDialogAdd(e) {
+      this.dialogAddVisible = false
       console.log(e)
     },
   },

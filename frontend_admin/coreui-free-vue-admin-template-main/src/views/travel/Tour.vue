@@ -6,6 +6,26 @@
       style="margin-bottom: 20px"
       >Thêm mới</el-button
     >
+    <CRow>
+      <CCol>
+        <el-form-item label="Mã Tour">
+          <el-input v-model="objectSearch.id" placeholder="Tìm kiếm mã Tour" />
+        </el-form-item>
+      </CCol>
+      <CCol>
+        <el-form-item label="Tên Tour">
+          <el-input
+            v-model="objectSearch.name"
+            placeholder="Tìm kiếm theo tên Tour"
+          />
+        </el-form-item>
+      </CCol>
+      <CCol>
+        <el-button @click="handleSearchClick" type="primary"
+          >Tìm kiếm</el-button
+        >
+      </CCol>
+    </CRow>
     <el-table
       :data="displayData"
       stripe
@@ -34,7 +54,11 @@
             @click="handleDetailClick(scope.row)"
             >Detail</el-button
           >
-          <el-button link type="primary" size="small" @click="handleUpdateClick"
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="handleUpdateClick(scope.row)"
             >Edit</el-button
           >
         </template>
@@ -65,10 +89,15 @@
       ></detail-tour>
     </el-dialog>
     <el-dialog v-model="dialogUpdateVisible" title="Cập nhật thông tin Tour">
-      <UpdateTour></UpdateTour>
+      <UpdateTour
+        @close-dialog-update="closeDialogUpdate"
+        :tourData="dataTour"
+        :dataSchedule="dataSchedule"
+        :disCountTourGet="discountTour"
+      ></UpdateTour>
     </el-dialog>
     <el-dialog v-model="dialogAddVisible" title="Thêm mới Tour">
-      <AddTour></AddTour>
+      <AddTour @close-dialog="closeDialogAdd"></AddTour>
     </el-dialog>
   </div>
 </template>
@@ -108,11 +137,25 @@ export default {
       },
       dataSchedule: [],
       discountTour: {},
+      objectSearch: {
+        id: null,
+        name: null,
+      },
     }
   },
   created() {
     this.getData()
+    this.actionGetGuideSelectBoxList()
   },
+  // watch: {
+  //   list: {
+  //     immediate: true,
+  //     deep: true,
+  //     handler: function () {
+  //       this.list = this.tourListGet
+  //     },
+  //   },
+  // },
   computed: {
     ...mapGetters({
       tourListGet: 'tour/getTourList',
@@ -135,7 +178,16 @@ export default {
       actionGetTourScheduleById: 'tour/actionGetTourScheduleList',
       actionGetDiscountTour: 'tour/actionGetDiscountTour',
       actionGetOrdersByTourId: 'tour/actionGetOrdersByTourId',
+      actionGetGuideSelectBoxList: 'guide/actionGetGuideSelectBoxList',
     }),
+    closeDialogAdd(e) {
+      this.dialogAddVisible = false
+      console.log(e)
+    },
+    closeDialogUpdate(e) {
+      this.dialogUpdateVisible = false
+      console.log(e)
+    },
     handleCurrentChange(val) {
       this.currentPage2 = val
     },
@@ -150,9 +202,8 @@ export default {
       return month + '/' + day + '/' + year
     },
     async getData() {
-      await this.actionTourList()
+      await this.actionTourList(this.objectSearch)
       this.list = this.tourListGet
-      console.log(this.list[0].name)
     },
     getFormattedDateForSchedule(date) {
       let year = date.getFullYear()
@@ -201,8 +252,20 @@ export default {
         console.log('abccc' + this.discountTour.endDate + '--2')
       }
     },
-    handleUpdateClick() {
+    handleSearchClick() {
+      this.getData()
+    },
+    handleUpdateClick(data) {
       this.dialogUpdateVisible = true
+      this.dataTour = Object.assign({}, data)
+      this.dataTour.startTime = this.getFormattedDateForSchedule(
+        new Date(this.dataTour.startTime),
+      )
+      this.actionTourPriceById(data.id)
+      this.actionLandTourPriceById(data.id)
+      this.actionGetOrdersByTourId(data.id)
+      this.getTourScheduleById(data.id)
+      this.getDiscountTourRit(data.id)
     },
     handleAddClick() {
       this.dialogAddVisible = true

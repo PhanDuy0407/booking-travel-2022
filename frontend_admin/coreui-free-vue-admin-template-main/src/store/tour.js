@@ -8,6 +8,8 @@ export const state = () => ({
   tourprice1Tour: {},
   discountTour: {},
   ordersById: [],
+  dataAdd: {},
+  dataUpdate: {},
 })
 
 const getters = {
@@ -18,6 +20,8 @@ const getters = {
   getTourPrice1TourList: (state) => state.tourprice1Tour,
   getDiscountTour: (state) => state.discountTour,
   getOrdersById: (state) => state.ordersById,
+  getDataAdd: (state) => state.dataAdd,
+  getDataUpdate: (state) => state.dataUpdate,
 }
 
 const mutations = {
@@ -42,12 +46,19 @@ const mutations = {
   setOrdersById: (state, payload) => {
     state.ordersById = payload
   },
+  setDataAdd: (state, payload) => {
+    state.dataAdd = payload
+  },
+  setDataUpdate: (state, payload) => {
+    state.dataUpdate = payload
+  },
 }
 
 const actions = {
-  async actionTourList({ commit }) {
+  async actionTourList({ commit }, objectSearch) {
     // let header = { headers: { Authorization: "Bearer " + useJwt.getToken() } }
-    const data = await axiosIns.get('http://localhost:8089/api/v1/tours')
+    const data = await axiosIns.get(`
+    http://localhost:8089/api/v1/tours?codeTour=${objectSearch.id}&nameTour=${objectSearch.name}`)
     if (data.status === 200) {
       console.log('ress===', data.data)
       commit('setTourList', data.data)
@@ -104,6 +115,28 @@ const actions = {
     http://localhost:8089/api/v1/tour-orders/${id}`)
     if (data.status === 200) {
       commit('setOrdersById', data.data)
+    }
+  },
+  async actionPostNewTour({ commit }, dataTour) {
+    // let header = { headers: { Authorization: "Bearer " + useJwt.getToken() } }
+    const data = await axiosIns.post(
+      `http://localhost:8089/api/v1/tour`,
+      dataTour,
+    )
+    if (data.status === 200) {
+      console.log('ress===', data.data)
+      commit('setDataAdd', data.data)
+    }
+  },
+  async actionPostUpdateTour({ commit }, dataTour) {
+    // let header = { headers: { Authorization: "Bearer " + useJwt.getToken() } }
+    const data = await axiosIns.post(
+      `http://localhost:8089/api/v1/tour/update`,
+      dataTour,
+    )
+    if (data.status === 200) {
+      console.log('ress===', data.data)
+      commit('setDataUpdate', data.data)
     }
   },
 }

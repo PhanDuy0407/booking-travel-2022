@@ -47,6 +47,8 @@
                     label="Điểm đi"
                     :items="places"
                     v-model="startPlace"
+                    item-value="id"
+                    item-text="name"
                   >
                   </v-autocomplete>
                 </div>
@@ -59,6 +61,8 @@
                     label="Điểm đến"
                     :items="places"
                     v-model="endPlace"
+                    item-value="id"
+                    item-text="name"
                   >
                   </v-autocomplete>
                 </div>
@@ -101,10 +105,20 @@
                 </div>
 
                 <div class="filter-box">
-                  <v-select prepend-icon="mdi-calendar" label="Số ngày" :items="dayOption" v-model="numOfDay">
+                  <v-select
+                    prepend-icon="mdi-calendar"
+                    label="Số ngày"
+                    :items="periods"
+                    v-model="numOfDay"
+                  >
                   </v-select>
                 </div>
-                <v-btn large color="#2d4271" @click="clickSearch" to="/category" >
+                <v-btn
+                  large
+                  color="#2d4271"
+                  @click="clickSearch"
+                  to="/category"
+                >
                   <v-icon large color="yellow">mdi-arrow-right</v-icon>
                 </v-btn>
               </v-card-text>
@@ -124,10 +138,12 @@
       <v-col cols="12" lg="12">
         <div>
           <div class="pt-16 mt-16">
-            <h2 class="text-h4 font-weight-bold pb-4 text-center">Tour ưu đãi</h2>
+            <h2 class="text-h4 font-weight-bold pb-4 text-center">
+              Tour ưu đãi
+            </h2>
 
             <v-row>
-              <v-col v-for="i in 6" :key="i" cols="12" lg="4" md="6">
+              <v-col v-for="(item, i) in toursDiscount" :key="i" cols="12" lg="4" md="6">
                 <v-hover
                   v-slot:default="{ hover }"
                   close-delay="50"
@@ -139,43 +155,46 @@
                       :elevation="hover ? 12 : 0"
                       flat
                       hover
-                      to="/detail"
+                      :to="{ name: 'Detail', params: { id: item.id } }"
                     >
                       <v-img
                         :aspect-ratio="16 / 9"
                         class="elevation-2"
                         gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
                         height="200px"
-                        src="https://cdn.pixabay.com/photo/2020/12/23/14/41/forest-5855196_1280.jpg"
+                        :src="item.mainImageUrl"
                         style="border-radius: 16px"
                       >
-                        <v-card-text>
+                        <!-- <v-card-text>
                           <v-btn color="accent" to="category">TIPS</v-btn>
-                        </v-card-text>
+                        </v-card-text> -->
                       </v-img>
 
                       <v-card-text>
                         <div class="text-h6 font-weight-bold black--text">
-                          Bangkok - Pattaya (Khách sạn 4*, tặng Show Alcazar và
-                          Buffet tại BaiYoke Sky)
+                          {{ item.name }}
                         </div>
 
                         <div class="text-body-1 pt-5 black--text">
-                          Nơi khởi hành: TP. Hồ Chí Minh
+                          Nơi khởi hành: {{ item.startPlaceName }}
                         </div>
-                        <div class="text-body-1 black--text ">
-                          Giá: <span class="text-decoration-line-through">9.000.000đ</span>
+                        <div class="text-body-1 black--text">
+                          Giá:
+                          <span class="text-decoration-line-through"
+                            >{{ formatCurrency(item.price) }}</span
+                          >
                         </div>
                         <div class="text-body-1 red--text font-weight-bold">
-                          8.000.000đ
+                          {{ formatCurrency(item.price-item.discount) }}
                         </div>
                         <div class="text-body-1 text-center py-5 indigo--text">
-                          Còn: 00 ngày 09:09:00
+                          Còn: {{calRemainingTime(item.endDateDiscount)}}
                         </div>
                         <div class="text-body-1 text-right black--text">
                           <span class="text-decoration-underline"
-                            >Số chỗ còn:</span>
-                          <span class="red--text"> 3</span>
+                            >Số chỗ còn:</span
+                          >
+                          <span class="red--text">{{item.placeOrderMax}}</span>
                         </div>
 
                         <!-- <div class="d-flex align-center">
@@ -239,7 +258,9 @@
                 </v-card>
               </v-col>
             </v-row> -->
-            <h2 class="text-h4 font-weight-bold pb-4 text-center">Tour ưa thích</h2>
+            <h2 class="text-h4 font-weight-bold pb-4 text-center">
+              Tour ưa thích
+            </h2>
 
             <v-row>
               <v-col v-for="i in 6" :key="i" cols="12" lg="4" md="6">
@@ -278,8 +299,11 @@
                         <div class="text-body-1 pt-5 black--text">
                           Nơi khởi hành: TP. Hồ Chí Minh
                         </div>
-                        <div class="text-body-1 black--text ">
-                          Giá: <span class="text-decoration-line-through">9.000.000đ</span>
+                        <div class="text-body-1 black--text">
+                          Giá:
+                          <span class="text-decoration-line-through"
+                            >9.000.000đ</span
+                          >
                         </div>
                         <div class="text-body-1 red--text font-weight-bold">
                           8.000.000đ
@@ -289,7 +313,8 @@
                         </div>
                         <div class="text-body-1 text-right black--text">
                           <span class="text-decoration-underline"
-                            >Số chỗ còn:</span>
+                            >Số chỗ còn:</span
+                          >
                           <span class="red--text"> 3</span>
                         </div>
 
@@ -306,51 +331,8 @@
                 </v-hover>
               </v-col>
             </v-row>
-
           </div>
 
-          <div class="pt-16">
-            <h2 class="text-h4 font-weight-bold">Latest Posts</h2>
-
-            <div>
-              <v-row v-for="i in 6" :key="i" class="py-4">
-                <v-col cols="12" md="4">
-                  <v-card flat height="100%">
-                    <v-img
-                      :aspect-ratio="16 / 9"
-                      height="100%"
-                      src="https://cdn.pixabay.com/photo/2021/01/27/06/54/nova-scotia-duck-tolling-retriever-5953883_1280.jpg"
-                    ></v-img>
-                  </v-card>
-                </v-col>
-
-                <v-col>
-                  <div>
-                    <v-btn color="accent" depressed>TRAVEL</v-btn>
-
-                    <h3 class="text-h4 font-weight-bold pt-3">
-                      Ut enim blandit volutpat maecenas volutpat blandit
-                    </h3>
-
-                    <p class="text-h6 font-weight-regular pt-3 text--secondary">
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </p>
-
-                    <div class="d-flex align-center">
-                      <v-avatar color="accent" size="36">
-                        <v-icon dark>mdi-feather</v-icon>
-                      </v-avatar>
-
-                      <div class="pl-2">Yan Lee · 03 Jan 2019</div>
-                    </div>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
-          </div>
         </div>
       </v-col>
 
@@ -364,7 +346,8 @@
 </template>
 
 <script>
-import {mapActions} from "vuex"
+import moment from "moment";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -373,33 +356,96 @@ export default {
   data() {
     return {
       tab: null,
-      places: [
-        { value: 1, text: "Hà Nội" },
-        { value: 2, text: "TPHCM" },
+      menu: false,
+      // places: [
+      //   { value: 1, text: "Hà Nội" },
+      //   { value: 2, text: "TPHCM" },
+      // ],
+      periods: [
+        { value: 1, text: "1-3 ngày" },
+        { value: 2, text: "4-7 ngày" },
+        { value: 3, text: "8-14 ngày" },
+        { value: 4, text: "Trên 14 ngày" },
       ],
-      dayOption: [
-        { value: 1, text: "1-3 ngày"},
-        { value: 2, text: "4-7 ngày"},
-      ],
-      startPlace: null,
-      endPlace: null,
-      startDate: null,
-      numOfDay: null
+      startPlace: "",
+      endPlace: "",
+      startDate: "",
+      numOfDay: null,
     };
   },
+
+  computed: {
+    ...mapGetters({
+      places: "place/getPlaces",
+      toursDiscount: "tourList/getToursDiscount"
+    }),
+    priceDiscount(){
+      
+    }
+  },
+
+  created() {
+    this.getPlaces();
+    this.getToursDiscount();
+  },
+
   methods: {
     ...mapActions({
-      setObjSearch: "tourList/setObjSearch"
+      setObjSearch: "tourList/setObjSearch",
+      getPlaces: "place/getAll",
+      getToursDiscount: "tourList/getToursDiscount"
     }),
-    clickSearch(){
-      const obj = {
-        startPlace: this.startPlace,
-        endPlace: this.endPlace,
-        startDate: this.startDate,
-        numOfDay: this.numOfDay
+    clickSearch() {
+      var fromPeriod;
+      var toPeriod;
+      switch (this.numOfDay) {
+        case 1:
+          fromPeriod = 1;
+          toPeriod = 3;
+          break;
+        case 2:
+          fromPeriod = 4;
+          toPeriod = 7;
+          break;
+        case 3:
+          fromPeriod = 8;
+          toPeriod = 14;
+          break;
+        case 4:
+          fromPeriod = 15;
+          toPeriod = "";
+          break;
+
+        default:
+          fromPeriod = "";
+          toPeriod = "";
+          break;
       }
-      console.log(obj)
-      this.setObjSearch(obj)
+      const obj = {
+        startPlaceId: this.startPlace,
+        endPlaceId: this.endPlace,
+        startTime: this.startDate,
+        period: this.numOfDay,
+        fromPeriod: fromPeriod,
+        toPeriod: toPeriod,
+        fromPrice: "",
+        toPrice: "",
+      };
+      console.log(obj);
+      this.setObjSearch(obj);
+    },
+
+    calRemainingTime(date){
+      var a = moment();
+      var b = moment(new Date(date))
+      var diff = moment.duration(b.diff(a))
+      var day = diff.days();
+      
+      return day + " ngày " + diff.hours()+ ":" + diff.minutes() + ":" + diff.seconds()
+    },
+
+    formatCurrency(currency){
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currency)
     }
   },
 };
@@ -421,7 +467,7 @@ export default {
 }
 .background-img {
   background-image: url("images/sl_220602_shopee-lazada-tiki.jpg");
-  height: 500px;
+  height: 400px;
   position: relative;
   display: flex;
   justify-content: center;

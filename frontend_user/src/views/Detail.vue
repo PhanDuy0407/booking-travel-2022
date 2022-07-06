@@ -2,17 +2,17 @@
   <div>
     <v-card color="#f9f9f9">
       <v-card-title class="d-flex justify-space-between">
-        <h3>Hà Nội - Bái Đính - Khu du lịch Tràng An</h3>
-        <div>
-          <v-btn color="error">Đặt ngay</v-btn>
-          <v-btn>Liên hệ tư vấn</v-btn>
+        <div class="text-h5 font-weight-bold">{{ tour.name }}</div>
+        <div class="d-flex flex-column">
+          <v-btn color="error" width="160px" :to="{ name: 'Order', params: { id: tour.id }}">Đặt ngay</v-btn>
+          <v-btn class="mt-4" width="160px">Liên hệ tư vấn</v-btn>
         </div>
       </v-card-title>
       <v-card-text>
         <v-row>
           <v-col>
             <v-img
-              src="https://cdn.pixabay.com/photo/2020/02/07/20/32/cyprus-4828328_1280.jpg"
+              :src="tour.mainImageUrl"
               :aspect-ratio="16 / 9"
               gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)"
               style="border-radius: 16px"
@@ -21,17 +21,8 @@
           </v-col>
           <v-col>
             <v-card height="400px" class="overflow-auto">
-              <v-card-text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                accumsan at urna ut fermentum. Pellentesque non diam nec sapien
-                laoreet tincidunt ac vitae leo. Nunc pellentesque, nisi
-                venenatis mollis tempor, mi risus blandit urna, vitae
-                sollicitudin justo tellus sit amet massa. In augue turpis,
-                suscipit mattis augue non, varius ullamcorper erat. Maecenas
-                ipsum sapien, dictum eleifend vehicula at, aliquet in nibh.
-                Donec laoreet ex eu nulla porta blandit. Pellentesque et urna
-                ex. In tincidunt suscipit libero, non pretium augue elementum
-                non. Vestibulum vel facilisis metus, ac dictum nisi.
+              <v-card-text class="black--text">
+                {{ tour.shortDesc }}
               </v-card-text>
             </v-card>
           </v-col>
@@ -39,11 +30,25 @@
         <v-row>
           <v-col>
             <v-card height="300px">
-              <v-card-text>
-                <p>Khởi hành:</p>
-                <p>Thời gian:</p>
-                <p>Nơi khởi hành:</p>
-                <p>Số chỗ còn nhận:</p>
+              <v-card-text class="black--text">
+                <p>
+                  Khởi hành:
+                  <span class="font-weight-bold">{{ formatDate(tour.startTime) }}</span>
+                </p>
+                <p>
+                  Thời gian:
+                  <span class="font-weight-bold">{{ tour.period }} ngày</span>
+                </p>
+                <p>
+                  Nơi khởi hành:
+                  <span class="font-weight-bold">{{
+                    tour.startPlaceName
+                  }}</span>
+                </p>
+                <p>
+                  Số chỗ còn nhận:
+                  <span class="font-weight-bold">{{ tour.placeOrderMax }}</span>
+                </p>
               </v-card-text>
             </v-card>
           </v-col>
@@ -65,46 +70,25 @@
     <v-card>
       <v-row>
         <v-col lg="4" style="background-color: #f9f9f9">
-          <v-card-text class="mb-10">
+          <v-card-text
+            class="mb-10"
+            v-for="(item, index) in tour.tourScheduleList"
+            :key="index"
+          >
             <div class="d-flex justify-space-between">
-              <div>Ngày 1</div>
-              <div>03/06/2022</div>
+              <div>{{ item.alias }}</div>
+              <div>{{ formatDate(item.time) }}</div>
             </div>
-            <div>HÀ NỘI QUẢN BẠ YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)</div>
-          </v-card-text>
-          <v-card-text class="mb-10">
-            <div class="d-flex justify-space-between">
-              <div>Ngày 1</div>
-              <div>03/06/2022</div>
-            </div>
-            <div>HÀ NỘI QUẢN BẠ YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)</div>
+            <div>{{ item.location }}</div>
           </v-card-text>
         </v-col>
         <v-col>
-          <v-card-text>
+          <v-card-text v-for="(item, index) in tour.tourScheduleList" :key="index">
             <h4>
-              Ngày 1 - HÀ NỘI QUẢN BẠ - YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)
+              {{item.location}}
             </h4>
-            <li>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elitm Nullam
-              accumsan at urna ut |ermentumm Pellentesque non diam nec sapien
-              laoreet tincidunt ac vitae leom Nunc pellentesque, nisi venenatis
-              mollis tempor, mi risus blandit urna, vitae sollicitudin justo
-              tellus sit amet massam In augue turpis, suscipit mattis augue non,
-              varius ullamcorper eratl
-            </li>
-          </v-card-text>
-          <v-card-text>
-            <h4>
-              Ngày 1 - HÀ NỘI QUẢN BẠ - YÊN MINH ĐỒNG VĂN (Ăn trưa, chiều)
-            </h4>
-            <li>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elitm Nullam
-              accumsan at urna ut |ermentumm Pellentesque non diam nec sapien
-              laoreet tincidunt ac vitae leom Nunc pellentesque, nisi venenatis
-              mollis tempor, mi risus blandit urna, vitae sollicitudin justo
-              tellus sit amet massam In augue turpis, suscipit mattis augue non,
-              varius ullamcorper eratl
+            <li v-for="(item2, index2) in splitText(item.detail)" :key="index2">
+              {{item2}}
             </li>
           </v-card-text>
         </v-col>
@@ -129,8 +113,8 @@
             >Thông tin hướng dẫn viên</v-card-title
           >
           <v-card-text>
-            <div>Ngày giờ tập trung:</div>
-            <div>Nơi tập trung:</div>
+            <div>HDV dẫn đoàn: {{tour.guideName}}</div>
+            <div>HDV tiễn: {{tour.guideName}}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -144,35 +128,35 @@
               <thead>
                 <tr class="font-weight-bold">
                   <th class="text-left">Loại khách</th>
-                  <th class="text-left">Giá tour</th>
-                  <th class="text-left">Land tour</th>
+                  <th class="text-center">Giá tour</th>
+                  <th class="text-right">Land tour</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Người lớn (Từ 12 tuổi trở lên)</td>
-                  <td class="red--text">2.500.000 đ</td>
-                  <td>0 đ</td>
+                  <td class="red--text text-right">{{formatCurrency(tour.tourPrice.adult)}}</td>
+                  <td class="text-right">{{formatCurrency(tour.landTourPrice.adult)}}</td>
                 </tr>
                 <tr>
-                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
-                  <td class="red--text">2.500.000 đ</td>
-                  <td>0 đ</td>
+                  <td>Trẻ em (Từ 5 - 11 tuổi)</td>
+                  <td class="red--text text-right">{{formatCurrency(tour.tourPrice.children)}} </td>
+                  <td class="text-right">{{formatCurrency(tour.landTourPrice.children)}}</td>
                 </tr>
                 <tr>
-                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
-                  <td class="red--text">2.500.000 đ</td>
-                  <td>0 đ</td>
+                  <td>Trẻ nhỏ (Từ 2 - 4 tuổi)</td>
+                  <td class="red--text text-right">{{formatCurrency(tour.tourPrice.kid)}} </td>
+                  <td class="text-right">{{formatCurrency(tour.landTourPrice.kid)}}</td>
                 </tr>
                 <tr>
-                  <td>Người lớn (Từ 12 tuổi trở lên)</td>
-                  <td class="red--text">2.500.000 đ</td>
-                  <td>0 đ</td>
+                  <td>Em bé (Dưới 2 tuổi)</td>
+                  <td class="red--text text-right">{{formatCurrency(tour.tourPrice.baby)}} </td>
+                  <td class="text-right">{{formatCurrency(tour.landTourPrice.baby)}} </td>
                 </tr>
                 <tr class="font-weight-bold">
-                  <td class="font-weight-bold">Phụ thu phòng đơn	</td>
-                  <td class="red--text">2.500.000 đ</td>
-                  <td>0 đ</td>
+                  <td class="font-weight-bold">Phụ thu phòng đơn</td>
+                  <td class="red--text text-right">{{formatCurrency(tour.tourPrice.surcharge)}}</td>
+                  <td class="text-right">{{formatCurrency(tour.landTourPrice.surcharge)}}</td>
                 </tr>
               </tbody>
             </v-simple-table>
@@ -438,15 +422,54 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Category",
   components: {
     siderbar: () => import("@/components/details/sidebar"),
   },
+  mounted() {
+    // const route = useRoute();
+    // console.log("route", route.params.id)
+    console.log(this.$route.params.id);
+  },
+  computed: {
+    ...mapGetters({
+      tour: "tourList/getTour",
+    }),
+  },
   data() {
     return {
       locations: ["HN", "TPHCM"],
     };
+  },
+  created() {
+    this.getTour(this.$route.params.id);
+  },
+  methods: {
+    ...mapActions({
+      getTour: "tourList/getTour",
+    }),
+    splitText(para){
+      if(para != null ){
+        const a = para.split('\\n')
+        console.log(a)
+        return a
+      }
+      return []
+    },
+    formatDate(strDate){
+      const date = new Date(strDate)
+      const yyyy = date.getFullYear();
+      let mm = date.getMonth() + 1; // Months start at 0!
+      let dd = date.getDate();
+      if (dd < 10) dd = "0" + dd;
+      if (mm < 10) mm = "0" + mm;
+      return dd + "-" + mm + "-" + yyyy;
+    },
+    formatCurrency(currency){
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currency)
+    }
   },
 };
 </script>

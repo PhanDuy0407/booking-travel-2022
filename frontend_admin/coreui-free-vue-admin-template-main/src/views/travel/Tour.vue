@@ -88,7 +88,11 @@
         :disCountTourGet="discountTour"
       ></detail-tour>
     </el-dialog>
-    <el-dialog v-model="dialogUpdateVisible" title="Cập nhật thông tin Tour">
+    <el-dialog
+      v-model="dialogUpdateVisible"
+      title="Cập nhật thông tin Tour"
+      width="80%"
+    >
       <UpdateTour
         @close-dialog-update="closeDialogUpdate"
         :tourData="dataTour"
@@ -96,7 +100,7 @@
         :disCountTourGet="discountTour"
       ></UpdateTour>
     </el-dialog>
-    <el-dialog v-model="dialogAddVisible" title="Thêm mới Tour">
+    <el-dialog v-model="dialogAddVisible" title="Thêm mới Tour" width="80%">
       <AddTour @close-dialog="closeDialogAdd"></AddTour>
     </el-dialog>
   </div>
@@ -144,8 +148,16 @@ export default {
     }
   },
   created() {
-    this.getData()
-    this.actionGetGuideSelectBoxList()
+    var me = this
+    if (this.authentication == true) {
+      this.getData()
+      this.actionGetGuideSelectBoxList()
+      this.timer = setInterval(function () {
+        me.getData()
+      }, 5000)
+    } else {
+      this.$router.push({ name: 'Login' })
+    }
   },
   // watch: {
   //   list: {
@@ -161,6 +173,7 @@ export default {
       tourListGet: 'tour/getTourList',
       getTourScheduleByTourId: 'tour/getTourScheduleList',
       getDiscountTour: 'tour/getDiscountTour',
+      authentication: 'user/getAuthentication',
     }),
     displayData() {
       if (!this.list || this.list.length === 0) return []

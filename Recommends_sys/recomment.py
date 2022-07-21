@@ -41,7 +41,7 @@ import scipy.sparse
 from scipy.spatial.distance import correlation
 
 data=pd.read_csv('/content/data_collaborative_1.csv')
-placeInfo=pd.read_csv('/content/rmk.csv')
+#placeInfo=pd.read_csv('/content/rmk.csv')
 #data=pd.concat([data,df])
 #data=pd.merge(data,placeInfo,left_on='itemId',right_on="itemId")
 userIds=data.userId
@@ -108,10 +108,11 @@ def topNRecommendations(activeUser,N):
         predictItemRating=predictItemRating.drop(placeAlreadyWatched)
         topRecommendations=pd.DataFrame.sort_values(predictItemRating,
                                                 ['Rating'],ascending=[0])[:N]
-        topRecommendationTitles=(placeInfo.loc[placeInfo.itemId.isin(topRecommendations.index)])
+        topRecommendationTitles=(data.loc[data.itemId.isin(topRecommendations.index)])
+        topRecommendation=set(topRecommendationTitles.itemId)
     except ZeroDivisionError:
         print("You can't divide by zero!")
-    return list(topRecommendationTitles.itemId)
+    return list(topRecommendation)
 
 print("The recommended places for user",4," are: ",topNRecommendations(4,4))
 

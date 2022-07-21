@@ -21,3 +21,7 @@ services:
     image: frontend_admin
     ports:
       - 8080:8080
+  frontend_user:
+    image: frontend_user
+    ports:
+      - 3000:3000

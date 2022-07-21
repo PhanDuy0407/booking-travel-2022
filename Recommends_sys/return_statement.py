@@ -7,5 +7,6 @@ app = FastAPI()
 
 @app.get("/recommend")
 async def root(userId: int):
-    result = recommend.topNRecommendations(userId, 5)
+    result = recommend.topNRecommendations(userId, 6)
+    print(result)
     return result

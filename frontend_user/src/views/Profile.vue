@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-card v-if="authentication == true">
+    <!-- <v-card v-if="authentication == true"> -->
+      <v-card v-if="checkAuthentication() == true">
       <v-card-title class="justify-center">Thông tin người dùng</v-card-title>
       <v-card-text>
         <v-row>
@@ -53,7 +54,7 @@
         >
       </v-card-actions>
     </v-card>
-    <v-card v-if="authentication == false">
+    <v-card v-if="checkAuthentication() == false">
       <v-card-title class="justify-center">Bạn chưa đăng nhập</v-card-title>
     </v-card>
     <!-- <v-row>
@@ -172,23 +173,32 @@ export default {
     }),
   },
   created() {
-    if (this.authentication == true) {
-      console.log(localStorage.getItem("username"));
+    if (this.checkAuthentication() == true) {
       this.getUser(localStorage.getItem("username"));
       this.actionOrderListHistory(localStorage.getItem("userId"));
+    } else {
+      this.$router.push("Login")
     }
   },
   methods: {
     ...mapActions({
       getUser: "user/getUser",
-      setAuthentication: "user/setAuthentication",
+      // setAuthentication: "user/setAuthentication",
       actionOrderListHistory: "order/actionOrderListHistory",
     }),
     logOut() {
-      this.setAuthentication(false);
-      // this.$router.push({ path: '/' })
-      this.$router.push({ name: "Login" });
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("username");
+      localStorage.removeItem("userId");
+      // this.setAuthentication(false);
+      this.$router.go()
     },
+    checkAuthentication() {
+      if(localStorage.getItem("username") === null){
+        return false;
+      }
+      return true
+    }
   },
 };
 </script>

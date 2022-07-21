@@ -102,7 +102,7 @@ public class TourController {
     private ResponseEntity<List<TourDTO_User>> getRecommendTour(@RequestParam(name="userId", required = false) Long userId){
         List<TourDTO_User> listRecommend = new ArrayList<>();
         if (userId == null){
-            listRecommend = tourRepository.getTourDTOList().subList(0,5);
+            listRecommend = tourRepository.getTourDTOList().subList(0,6);
             return new ResponseEntity<List<TourDTO_User>>(listRecommend, HttpStatus.OK);
         }
         var uri = URI.create("http://localhost:8000/recommend?userId="+userId);
@@ -122,6 +122,7 @@ public class TourController {
         if (response != null){
             String[] responseBody = response.body().substring(1, response.body().length()-1).split(",");
             for (String id: responseBody) {
+                System.out.print(Long.valueOf(id)+" "+tourRepository.getTourById(Long.valueOf(id)));
                 listRecommend.add(tourRepository.getTourById(Long.valueOf(id)));
             }
             return new ResponseEntity<List<TourDTO_User>>(listRecommend, HttpStatus.OK);

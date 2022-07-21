@@ -4,7 +4,7 @@
       <v-card class="py-6">
         <v-card-title class="d-flex justify-center">
           <div class="text-h4">
-            Login
+            Register
           </div>
         </v-card-title>
         <v-card-text>
@@ -18,11 +18,33 @@
               outlined
               v-model="password"
           ></v-text-field>
+          <v-text-field
+              label="Họ và tên"
+              outlined
+              v-model="fullname"
+          ></v-text-field>
+          <v-text-field
+              label="Email"
+              outlined
+              v-model="email"
+          ></v-text-field>
+          <v-text-field
+              label="Địa chỉ"
+              outlined
+              v-model="address"
+          ></v-text-field>
+          <v-text-field
+              label="Ngày Sinh"
+              outlined
+              v-model="dob"
+          ></v-text-field>
+          <v-text-field
+              label="Giới tính"
+              outlined
+              v-model="gender"
+          ></v-text-field>
           <div class="text-right">
             <v-btn color="primary" @click="submit">
-              Login
-            </v-btn>
-            <v-btn color="primary" @click="register">
               Register
             </v-btn>
           </div>
@@ -48,23 +70,23 @@ export default {
     }),
     async submit() {
       const data = await axiosIns.post(
-        'http://localhost:8089/api/v1/login',
+        'http://localhost:8089/api/v1/register',
         {
           "username": this.username,
-          "password": this.password
+          "password": this.password,
+          "fullname": this.fullname,
+          "email": this.email,
+          "address": this.address,
+          "dob": this.dob,
+          "gender": this.gender,
         }
       )
       if (data.status === 200) {
         localStorage.username = this.username
         localStorage.userId = data.data.data.id
         localStorage.jwt = data.data.data.jwt
-        // this.setAuthentication(true)
-        // this.$router.go("Home")
         this.$router.push({ name: 'Home' })
       }
-    },
-    register() {
-      this.$router.push({ name: 'Register' })
     }
   }
 }

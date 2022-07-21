@@ -17,26 +17,34 @@
           <v-col>
             <v-row>
               <v-col lg="4">Họ và tên</v-col>
-              <v-col>{{user.fullname}}</v-col>
+              <v-col>{{ user.fullname }}</v-col>
             </v-row>
             <v-row>
               <v-col lg="4">Ngày sinh</v-col>
-              <v-col>{{user.dob}}</v-col>
+              <v-col>{{ user.dob }}</v-col>
             </v-row>
             <v-row>
               <v-col lg="4">Giới tính</v-col>
-              <v-col>{{user.gender}}</v-col>
+              <v-col>{{ user.gender }}</v-col>
             </v-row>
             <v-row>
               <v-col lg="4">Email</v-col>
-              <v-col>{{user.email}}</v-col>
+              <v-col>{{ user.email }}</v-col>
             </v-row>
             <v-row>
               <v-col lg="4">Địa chỉ</v-col>
-              <v-col>{{user.address}}</v-col>
+              <v-col>{{ user.address }}</v-col>
             </v-row>
-            
           </v-col>
+        </v-row>
+        <v-row>
+          <h5 class="text-center black--text">Lịch sử đặt tour</h5>
+          <v-data-table
+            :headers="headers"
+            :items="getOrderHistory"
+            :items-per-page="5"
+            class="elevation-1"
+          ></v-data-table>
         </v-row>
       </v-card-text>
       <v-card-actions class="justify-right">
@@ -138,28 +146,49 @@ export default {
   components: {
     siderbar: () => import("@/components/details/sidebar"),
   },
+  data() {
+    return {
+      headers: [
+        {
+          text: "Mã đơn",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "Tên tour", value: "tourName" },
+        { text: "Người lớn(SL)", value: "adultCount" },
+        { text: "Trẻ em(SL)", value: "childrenCount" },
+        { text: "Trẻ nhỏ(SL)", value: "kidCount" },
+        { text: "Em bé(SL)", value: "babyCount" },
+        { text: "Tổng tiền", value: "sumPrice" },
+      ],
+    };
+  },
   computed: {
     ...mapGetters({
       authentication: "user/getAuthentication",
       user: "user/getUser",
+      getOrderHistory: "order/getOrderHistory",
     }),
   },
-  created(){
-    if(this.authentication == true){
-      console.log(localStorage.getItem("username"))
-      this.getUser(localStorage.getItem("username"))
+  created() {
+    if (this.authentication == true) {
+      console.log(localStorage.getItem("username"));
+      this.getUser(localStorage.getItem("username"));
+      this.actionOrderListHistory(localStorage.getItem("userId"));
     }
   },
   methods: {
     ...mapActions({
       getUser: "user/getUser",
-      setAuthentication: "user/setAuthentication"
+      setAuthentication: "user/setAuthentication",
+      actionOrderListHistory: "order/actionOrderListHistory",
     }),
-    logOut(){
-      this.setAuthentication(false)
-        // this.$router.push({ path: '/' })
-        this.$router.push({ name: 'Login' })
-    }
+    logOut() {
+      this.setAuthentication(false);
+      // this.$router.push({ path: '/' })
+      this.$router.push({ name: "Login" });
+    },
   },
 };
 </script>

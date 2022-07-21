@@ -21,9 +21,30 @@ for i in range(32):
   else: 
     data1['isvisited'][i]=np.random.choice(np.arange(0,2), p=[0.85,0.15])
 
-print (data1)
+#print (data1)
 #update file data
 data=pd.read_csv('/content/data_collaborative_1.csv')
 data=pd.concat([data,data1])
-print(data)
+#print(data)
+data.to_csv (r'/content/data_collaborative_1.csv', index = None, header=True)
+
+
+#creat random item
+data2 = {'userId': np.arange(1,11),
+        'itemId': [33]*10,
+         'rating':np.random.randint(0,5,10),
+         'isvisited':np.random.randint(0,1,10)
+        }
+data2 = pd.DataFrame(data2, index=None)
+for i in range(10):
+  if data2['rating'][i]>0:
+     data2['isvisited'][i]=1
+  else: 
+    data2['isvisited'][i]=np.random.choice(np.arange(0,2), p=[0.85,0.15])
+
+#print (data2)
+#update file date
+data=pd.read_csv('/content/data_collaborative_1.csv')
+data=pd.concat([data,data2])
+#print(data)
 data.to_csv (r'/content/data_collaborative_1.csv', index = None, header=True)

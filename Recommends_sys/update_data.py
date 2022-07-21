@@ -9,6 +9,12 @@ Original file is located at
 #creat random user
 import pandas as pd
 import numpy as np
+
+# get data from db
+# smth
+
+
+
 data1 = {'userId': [10]*32,
         'itemId': np.arange(1,33),
          'rating':np.random.randint(0,5,32),
@@ -23,10 +29,10 @@ for i in range(32):
 
 #print (data1)
 #update file data
-data=pd.read_csv('/content/data_collaborative_1.csv')
+data=pd.read_csv('./data_collaborative_1.csv')
 data=pd.concat([data,data1])
 #print(data)
-data.to_csv (r'/content/data_collaborative_1.csv', index = None, header=True)
+data.to_csv (r'./data_collaborative_1.csv', index = None, header=True)
 
 
 #creat random item
@@ -44,7 +50,7 @@ for i in range(10):
 
 #print (data2)
 #update file date
-data=pd.read_csv('/content/data_collaborative_1.csv')
+data=pd.read_csv('./data_collaborative_1.csv')
 data=pd.concat([data,data2])
 #print(data)
-data.to_csv (r'/content/data_collaborative_1.csv', index = None, header=True)
+data.to_csv (r'./data_collaborative_1.csv', index = None, header=True)

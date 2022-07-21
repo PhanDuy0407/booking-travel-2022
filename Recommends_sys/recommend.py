@@ -7,45 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1GBhXmj7bskvFwfha0UulVdC0Of-_JWq8
 """
 
-#creat random user
-#import pandas as pd
-#import numpy as np
-#data1 = {'userId': [10]*32,
-#        'itemId': np.arange(1,33),
-#         'rating':np.random.randint(0,5,32)
-#        }
-#df = pd.DataFrame(data1, index=None)
-#print (df)
-
-#for i in range(1,10):
- # print(np.arange(32*(i-1)+1,i*32+1))
-
-#concat=pd.DataFrame(index=None)
-#for i in range(1,10):
-#     data2 = {'STT':np.arange(32*(i-1)+1,i*32+1),
-#    'isvisited':np.random.randint(0,2,32)}
-#     data2=pd.DataFrame(data2,index=None)
-#     concat=pd.concat([concat,data2])
-
-#print (concat)
-
-#data=pd.read_csv('/content/data_collaborative_1.csv')
-#data=pd.merge(data,concat,left_on='STT',right_on="STT")
-#print(data)
-
-#data.to_csv (r'/content/data_collaborative_1.csv', index = None, header=True)
-
 import numpy as np
 import pandas as pd
 import scipy.sparse
 from scipy.spatial.distance import correlation
 
-data=pd.read_csv('/content/data_collaborative_1.csv')
-#placeInfo=pd.read_csv('/content/rmk.csv')
-#data=pd.concat([data,df])
-#data=pd.merge(data,placeInfo,left_on='itemId',right_on="itemId")
+data=pd.read_csv('./data_collaborative_1.csv')
 userIds=data.userId
-#userIds2=data[['userId']]
 
 data.loc[0:10,['userId']]
 data=pd.DataFrame.sort_values(data,['userId','itemId'],ascending=[0,1])
@@ -114,9 +82,7 @@ def topNRecommendations(activeUser,N):
         print("You can't divide by zero!")
     return list(topRecommendation)
 
-print("The recommended places for user",4," are: ",topNRecommendations(4,4))
-
-topNRecommendations(4,4)
+# print(topNRecommendations(9,5))
 
 #khi loại bỏ item,chỉ cần gán nhãn cho user đang xét đánh giá item đó là số >0 sẽ đảm bảo ko gợi ý sản phẩm đó
 #khi thêm sản phẩm,thêm vào bình thường.

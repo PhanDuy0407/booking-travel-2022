@@ -212,7 +212,7 @@
             </v-row>
           </div>
 
-          <div class="pt-16" :style="{'margin-bottom' : '75px'}">
+          <div class="pt-16" :style="{'margin-bottom' : '100px'}">
             <h2 class="text-h4 font-weight-bold pb-4 text-center">
               Gợi ý cho bạn
             </h2>

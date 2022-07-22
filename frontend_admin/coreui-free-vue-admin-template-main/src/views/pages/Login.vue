@@ -86,7 +86,7 @@ export default {
     }),
     async submit() {
       const data = await axiosIns.post(
-        'http://localhost:8089/api/v1/login-admin',
+        'http://103.174.213.91:8089/api/v1/login-admin',
         {
           username: this.username,
           password: this.password,

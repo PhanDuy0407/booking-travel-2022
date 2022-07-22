@@ -1,5 +1,5 @@
 <template>
-  <div :style="{'position': 'fixed', 'bottom' : '0', 'width' : '100%'}">
+  <div>
     <v-card absolute app color="primary" dark flat>
       <v-container>
         <!-- <v-row align="start">

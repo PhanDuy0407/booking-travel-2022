@@ -18,10 +18,10 @@ services:
     ports:
       - 8089:8089
   frontend_admin:
-    image: admin-fr
+    image: frontend_admin
     ports:
       - 8080:8080
   frontend_user:
-    image: user-fr
+    image: frontend_user
     ports:
       - 3000:3000
